@@ -22,5 +22,23 @@
     "companyId": "SJV0-wdOM",
     "title": "a hot one just arrived",
     "description": "goobook is hiring all levels"
+  },
+  {
+    "id": "Sy4DR6whp",
+    "companyId": "SJV0-wdOM",
+    "title": "looking for a tester",
+    "description": "you must be good at finding bugs"
+  },
+  {
+    "id": "Sybo0TPn6",
+    "companyId": "SJV0-wdOM",
+    "title": "looking for a tester",
+    "description": "you must be someone that  is good at finding bugs"
+  },
+  {
+    "id": "rJuyGCv2T",
+    "title": "devops engineer",
+    "description": "you must be good at scaling architectures",
+    "companyId": "SJV0-wdOM"
   }
 ]

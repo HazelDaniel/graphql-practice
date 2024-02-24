@@ -10,7 +10,13 @@ const typeDefs = gql(
   fs.readFileSync("./schema.graphql", { encoding: "utf-8" })
 );
 const resolvers = require("./resolvers.js");
-const apolloServer = new ApolloServer({ typeDefs, resolvers });
+const context = ({ req, res }) => {
+  return {
+    method: req.method,
+    user: req.user && db.users.get(req.user.sub),
+  };
+};
+const apolloServer = new ApolloServer({ typeDefs, resolvers, context });
 
 const port = 9000;
 const jwtSecret = Buffer.from("Zn8Q5tyZ/G1MHltc4F/gTkVJMlrbKiZt", "base64");
