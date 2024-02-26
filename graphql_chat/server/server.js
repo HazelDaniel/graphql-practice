@@ -13,9 +13,13 @@ const jwtSecret = Buffer.from("xkMBdsE+P6242Z2dPV3RD91BPbLIko7t", "base64");
 const typeDefs = fs.readFileSync("./schema.graphql", { encoding: "utf8" });
 const resolvers = require("./resolvers");
 
-function context({ req }) {
+function context({ req, connection }) {
   if (req && req.user) {
     return { userId: req.user.sub };
+  }
+  if (connection?.context?.accessToken) {
+    const decodedToken = jwt.verify(connection.context.accessToken, jwtSecret);
+    return { userId: connection.user.accessToken };
   }
   return {};
 }
@@ -30,7 +34,7 @@ app.use(
     credentialsRequired: false,
     secret: jwtSecret,
     algorithms: ["HS256"],
-  }).unless({ path: ['/login'] }) // unless middleware to exclude '/login' from authentication
+  }).unless({ path: ["/login"] }) // unless middleware to exclude '/login' from authentication
 );
 
 // Routes
@@ -51,11 +55,11 @@ apolloServer.applyMiddleware({ app, path: "/graphql" });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  if (err.name === 'UnauthorizedError') {
-    res.status(401).send('Unauthorized');
+  if (err.name === "UnauthorizedError") {
+    res.status(401).send("Unauthorized");
   } else {
     console.error(err);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send("Internal Server Error");
   }
 });
 

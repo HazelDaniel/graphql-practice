@@ -29,6 +29,9 @@ const wsLink = new WebSocketLink({
     lazy: true,
     reconnect: true,
   },
+  connectionParams: () => ({
+    accessToken: getAccessToken(),
+  }),
 });
 
 const isSubscription = (operation) => {
